@@ -1,4 +1,4 @@
-OBJ = numerov.o func.o print.o
+OBJ = numerov.o func.o print.o norma.o
 DEPS =  $(OBJ:.o=.h)
 SOURCES = main.cpp $(OBJ:.o=.cpp)
 
@@ -7,8 +7,8 @@ all : main.x $(SOURCES) $(DEPS) $(OBJ)
 %.o: %.cpp $(DEPS)
 	g++ -c -std=c++11 $<
 
-main.x: $(OBJ)
-	g++ -std=c++11 -o $@ $^ main.cpp
+main.x: main.cpp $(OBJ)
+	g++ -std=c++11 -o $@ $(OBJ) main.cpp
 
 .PHONY: clean
 clean:

@@ -57,17 +57,4 @@ void numerov(std::vector<double> &LEFT, std::vector<double> &RIGHT, std::vector<
       PHI[i + i_mL] = RIGHT[i];
     }
 
-  //Normalización
-  double s = 0.0;
-  for(int i = 0; i <= i_max; i++)
-    {
-      s += PHI[i]*PHI[i]*h;
-    }
-
-  s = std::sqrt(s);
-
-  for(int i = 0; i <= i_max; i++)
-    {
-      PHI[i]= PHI[i]/s;
-    }
 }

@@ -1,6 +1,7 @@
 #include "numerov.h"
 #include "func.h"
 #include "print.h"
+#include "norma.h"
 
 int main (void)
 {
@@ -8,7 +9,7 @@ int main (void)
   const double a = 2;// Mitad del ancho del pozo
   const double xm = -1; // Punto de matching
   const double V0 = 10.0; //Altura del pozo de potencial
-  const double E0 = 1.0;
+  const double E0 = 5.0;
   const double h = 0.004; //Tamaño de pasos en x
 
   const double eps = 1.0e-7; // Precisión
@@ -58,10 +59,12 @@ int main (void)
 		E = 0.5*(Er+El);
 		std::cout << "La raiz es E=" << E <<"\n";
 		numerov(LEFT, RIGHT, PHI, E, V0, a, xmin, xmax, xm, h);
+		norma (PHI,h); // Normalizando la función de onda
 		print (PHI, E, V0, xmin, h);
 		break;
 	      }
 	    E = 0.5*(Er+El);
+	    if (i == NSTEPS -1 ) std::cout << "No hubo una buena convergencia\n";
 	  }
 	break;
       }
