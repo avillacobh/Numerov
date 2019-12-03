@@ -8,8 +8,8 @@ int main (void)
   const double xmin = -4.0, xmax = 4.0;
   const double a = 2.0;// Mitad del ancho del pozo
   const double xm = -1.0; // Punto de matching
-  const double V0 = 30.0; //Altura del pozo de potencial
-  const double E0 = -28.0;
+  const double V0 = 200.0; //Altura del pozo de potencial
+  const double E0 = -V0;
   const double h = 0.0004; //Tamaño de pasos en x
 
   const double eps = 1.0e-7; // Precisión
@@ -27,27 +27,28 @@ int main (void)
   std::vector<double> RIGHT(size_right+ 1, 0.0); // Parte derecha
 
   double E = E0;
-  double El = E-delta;
-  double Er = E+delta;
+  
 
   for(int ii = 0; ii < NSTEPS; ii++) // Buscando donde se encuentra la raiz
     {
-     
+      double El = E-delta;
+      double Er = E+delta;
+      
       double A1 = func (LEFT, RIGHT, PHI, El, V0, a, xmin, xmax, xm, h);
       double A2 = func (LEFT, RIGHT, PHI, Er, V0, a, xmin, xmax, xm, h);
       
       if(A1*A2 >= 0){
-	std::cout << "No hay una raiz cercanca a E= " << E << "\n";
+	//std::cout << "No hay una raiz cercanca a E= " << E << "\n";
 	El = Er;
 	Er = El + delta ;
 	E = 0.5*(Er+El);
       }else{
 	E = 0.5*(Er+El);
 	std::cout<< "Se encontró una raiz cerca de E= " << E << std::endl;
-	E = bisection(LEFT, RIGHT, PHI, E, V0, a, xmin, xmax, xm, h, eps, NSTEPS); 
-	break;
+	E = 0.1 + bisection(LEFT, RIGHT, PHI, E, V0, a, xmin, xmax, xm, h, eps, delta, NSTEPS); 
       }
-      if(ii == NSTEPS - 1)  std::cout << "No se encontró una raíz en el dominio \n"; 
+      if(E > 0)  break;
+      if(ii == NSTEPS - 1) std::cout << "Los pasos fueron insuficientes para analizar todo el dominio";
     }
   
   return 0;

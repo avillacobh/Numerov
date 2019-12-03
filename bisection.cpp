@@ -1,9 +1,9 @@
 #include "bisection.h"
 
-double bisection(std::vector<double> &LEFT, std::vector<double> &RIGHT, std::vector<double> &PHI, double E, double V0, double a, double xmin, double xmax, double xm, double h, double eps, double NSTEPS)
+double bisection(std::vector<double> &LEFT, std::vector<double> &RIGHT, std::vector<double> &PHI, double E, double V0, double a, double xmin, double xmax, double xm, double h, double eps, double delta, double NSTEPS)
 {
-  double Er = E*1.15;
-  double El = E*0.85;
+  double Er = E + delta;
+  double El = E - delta;
   for(int i = 0; i< NSTEPS; i++) // Método de bisection para el intevalo hallado
     {
       double A2 = func (LEFT, RIGHT, PHI, Er, V0, a, xmin, xmax, xm, h);
