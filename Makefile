@@ -1,4 +1,4 @@
-OBJ = numerov.o func.o print.o norma.o
+OBJ = numerov.o func.o print.o norma.o bisection.o
 DEPS =  $(OBJ:.o=.h)
 SOURCES = main.cpp $(OBJ:.o=.cpp)
 

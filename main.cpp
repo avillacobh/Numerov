@@ -1,7 +1,7 @@
 #include "numerov.h"
 #include "func.h"
 #include "print.h"
-//#include "norma.h"
+#include "bisection.h"
 
 int main (void)
 {
@@ -12,7 +12,7 @@ int main (void)
   const double E0 = -28.0;
   const double h = 0.0004; //Tamaño de pasos en x
 
-  const double eps = 1.0e-12; // Precisión
+  const double eps = 1.0e-7; // Precisión
   const double delta = 0.01;
   const int NSTEPS = 1.0e6; // Máximo de pasos
     
@@ -44,35 +44,12 @@ int main (void)
       }else{
 	E = 0.5*(Er+El);
 	std::cout<< "Se encontró una raiz cerca de E= " << E << std::endl;
-	//std::cout << A1 << "\t" << A2 << "\t"<<A1*A2 <<"\n";
-	for(int i = 0; i< NSTEPS; i++) // Método de bisection para el intevalo hallado
-	  {
-	    double A2 = func (LEFT, RIGHT, PHI, Er, V0, a, xmin, xmax, xm, h);
-	    double A0 = func (LEFT, RIGHT, PHI, E, V0, a, xmin, xmax, xm, h);
-	    if (A0*A2 < 0)
-	      {
-		El = E;
-	      }else{
-	      Er = E;
-	    }
-	    if (std::abs(Er-El) < eps)
-	      {
-		E = 0.5*(Er+El);
-		std::cout << "La raiz es E=" << E <<"\n";
-		numerov(LEFT, RIGHT, PHI, E, V0, a, xmin, xmax, xm, h);
-		print (PHI, E, V0, xmin, h);
-		//std::cout << func (LEFT, RIGHT, PHI, E, V0, a, xmin, xmax, xm, h)<< std::endl;
-		break;
-	      }
-	    E = 0.5*(Er+El);
-	    if (i == NSTEPS -1 ) std::cout << "No hubo una buena convergencia\n";
-	  }
+	E = bisection(LEFT, RIGHT, PHI, E, V0, a, xmin, xmax, xm, h, eps, NSTEPS); 
 	break;
       }
       if(ii == NSTEPS - 1)  std::cout << "No se encontró una raíz en el dominio \n"; 
     }
   
-
   return 0;
 }
 
