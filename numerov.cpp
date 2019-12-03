@@ -1,4 +1,5 @@
 #include "numerov.h"
+#include "norma.h"
 
 void numerov(std::vector<double> &LEFT, std::vector<double> &RIGHT, std::vector<double> &PHI, double E, double V0, double a, double xmin, double xmax, double xm, double h)
 {
@@ -13,7 +14,7 @@ void numerov(std::vector<double> &LEFT, std::vector<double> &RIGHT, std::vector<
   const double A1 = 5.0*h*h/12.0;
   const double A2 = h*h/12.0;
 
-  const double b = std::sqrt((E)*p);
+  const double b = std::sqrt(std::abs(E)*p);
   
   //Creación del vector k2
   std::vector<double> k2 (i_max + 1, E*p);
@@ -57,4 +58,5 @@ void numerov(std::vector<double> &LEFT, std::vector<double> &RIGHT, std::vector<
       PHI[i + i_mL] = RIGHT[i];
     }
 
+  norma (PHI,h); // Normalizando la función de onda
 }

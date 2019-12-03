@@ -5,5 +5,5 @@ double func (std::vector<double> &LEFT, std::vector<double> &RIGHT, std::vector<
   int i_xm = LEFT.size() - 1;
   numerov(LEFT, RIGHT, PHI, E, V0, a, xmin, xmax, xm, h);
   
-  return (LEFT[i_xm] - RIGHT[0])/LEFT[i_xm];
+  return (LEFT[i_xm] - RIGHT[0]);//LEFT[i_xm];
 }

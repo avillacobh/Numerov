@@ -1,18 +1,18 @@
 #include "numerov.h"
 #include "func.h"
 #include "print.h"
-#include "norma.h"
+//#include "norma.h"
 
 int main (void)
 {
   const double xmin = -4.0, xmax = 4.0;
-  const double a = 2;// Mitad del ancho del pozo
-  const double xm = -1; // Punto de matching
-  const double V0 = 10.0; //Altura del pozo de potencial
-  const double E0 = 5.0;
-  const double h = 0.004; //Tamaño de pasos en x
+  const double a = 2.0;// Mitad del ancho del pozo
+  const double xm = -1.0; // Punto de matching
+  const double V0 = 30.0; //Altura del pozo de potencial
+  const double E0 = -28.0;
+  const double h = 0.0004; //Tamaño de pasos en x
 
-  const double eps = 1.0e-7; // Precisión
+  const double eps = 1.0e-12; // Precisión
   const double delta = 0.01;
   const int NSTEPS = 1.0e6; // Máximo de pasos
     
@@ -35,8 +35,8 @@ int main (void)
      
       double A1 = func (LEFT, RIGHT, PHI, El, V0, a, xmin, xmax, xm, h);
       double A2 = func (LEFT, RIGHT, PHI, Er, V0, a, xmin, xmax, xm, h);
-
-      if(A1*A2 > 0){
+      
+      if(A1*A2 >= 0){
 	std::cout << "No hay una raiz cercanca a E= " << E << "\n";
 	El = Er;
 	Er = El + delta ;
@@ -44,6 +44,7 @@ int main (void)
       }else{
 	E = 0.5*(Er+El);
 	std::cout<< "Se encontró una raiz cerca de E= " << E << std::endl;
+	//std::cout << A1 << "\t" << A2 << "\t"<<A1*A2 <<"\n";
 	for(int i = 0; i< NSTEPS; i++) // Método de bisection para el intevalo hallado
 	  {
 	    double A2 = func (LEFT, RIGHT, PHI, Er, V0, a, xmin, xmax, xm, h);
@@ -59,8 +60,8 @@ int main (void)
 		E = 0.5*(Er+El);
 		std::cout << "La raiz es E=" << E <<"\n";
 		numerov(LEFT, RIGHT, PHI, E, V0, a, xmin, xmax, xm, h);
-		norma (PHI,h); // Normalizando la función de onda
 		print (PHI, E, V0, xmin, h);
+		//std::cout << func (LEFT, RIGHT, PHI, E, V0, a, xmin, xmax, xm, h)<< std::endl;
 		break;
 	      }
 	    E = 0.5*(Er+El);
