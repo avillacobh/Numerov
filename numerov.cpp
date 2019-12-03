@@ -28,8 +28,8 @@ void numerov(std::vector<double> &LEFT, std::vector<double> &RIGHT, std::vector<
   
   LEFT[0] = std::exp(b*xmin);
   LEFT[1] = std::exp(b*(xmin + h));
-  RIGHT[i_mR] = std::exp(-b*xmax);
-  RIGHT[i_mR - 1] = std::exp(b*(-xmax + h));
+  RIGHT[i_mR] = -std::exp(-b*xmax);
+  RIGHT[i_mR - 1] = -std::exp(b*(-xmax + h));
 
   
   ///* Implementación del algoritmo numerov *///

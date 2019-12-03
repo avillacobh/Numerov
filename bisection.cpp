@@ -19,7 +19,17 @@ double bisection(std::vector<double> &LEFT, std::vector<double> &RIGHT, std::vec
 	  E = 0.5*(Er+El);
 	  std::cout << "La raiz es E=" << E <<"\n";
 	  numerov(LEFT, RIGHT, PHI, E, V0, a, xmin, xmax, xm, h);
-	  print (PHI, E, V0, xmin, h);
+
+	  double dev = der(LEFT, RIGHT, PHI, E, V0, a, xmin, xmax, xm, h);
+
+	  std::cout << dev << std::endl;
+	  
+	  if(std::abs(dev) < 10.0e-4){
+	    print (PHI, E, V0, xmin, h);
+	  }else{
+	    std::cout << "Este solución no es suave \n";
+	  }
+	  //print (PHI, E, V0, xmin, h);
 	  return E;
 	}
       E = 0.5*(Er+El);
